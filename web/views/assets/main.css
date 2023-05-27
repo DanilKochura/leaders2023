@@ -67,6 +67,8 @@ input, select {
     text-align: center;
     margin: 10px;
     transition: .2s ease-in;
+    text-decoration: none;
+    color: black;
 }
 
 .menu-element:hover {
@@ -179,4 +181,21 @@ input, select {
 #loader img
 {
     width: 100%;
+}
+
+.flex {
+    display: flex;
+}
+.justify-center
+{
+    justify-content: center;
+}
+
+.deep_block
+{
+    width: 150px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 2px solid blue;
+    text-align: center;
 }
