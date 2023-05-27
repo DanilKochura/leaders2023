@@ -10,7 +10,6 @@
 
 </head>
 <body>
-<img id="loader" src="<?=PATH?>views/assets/Spinner-2.gif" style="position: fixed;
-    top: 51%;
-    left: 50%;
-    width: 50px;" class="hidden">
+<div id="loader">
+    <img  src="<?=PATH?>views/assets/Spinner-2.gif"  class="">
+</div>
