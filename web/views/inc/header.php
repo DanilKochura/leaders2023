@@ -10,6 +10,15 @@
 
 </head>
 <body>
-<div id="loader">
-    <img  src="<?=PATH?>views/assets/Spinner-2.gif"  class="">
+<div id="loader" class="hidden">
+    <img  src="<?=PATH?>views/assets/Spinner-2.gif"  >
 </div>
+<div class="wrapper">
+
+    <menu class="menu">
+        <img src="https://imdibil.ru/hackathon/web/views/assets/logo.svg" alt="Logo" class="logo">
+        <a class="menu-element <?=$route[0]== 'dynamic' ? 'active' : ''?>" href="/hackathon/dynamic">Динамика</a>
+        <a class="menu-element <?=$route[0]== 'seasons' ? 'active' : ''?>" href="/hackathon/seasons">Сезонность</a>
+        <a class="menu-element <?=$route[0]== 'profiles' ? 'active' : ''?>" href="/hackathon/profiles">Профиль</a>
+        <a class="menu-element <?=$route[0]== 'predicts' ? 'active' : ''?>" href="/hackathon/predicts">Прогноз</a>
+    </menu>
