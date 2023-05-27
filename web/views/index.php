@@ -27,7 +27,7 @@
                     <option value="3">Астрахань</option>
                 </select>
                 <input name="flight" type="text" pattern="[1-9][0-9]{3}" placeholder="Номер рейса" class="flight-number" value="1130">
-                <input name="date" type="date" placeholder="Дата" class="date" value="03.09.2018">
+                <input name="date" type="date" placeholder="Дата" class="date" value="2018-09-03">
                 <select name="class" class="class">    <?php foreach($alphabet as $alpha): ?>
                         <option value="<?=$alpha?>"><?=$alpha?></option>    <?php endforeach; ?>
                 </select>
