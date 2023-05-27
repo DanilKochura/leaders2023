@@ -20,25 +20,48 @@ let chart = new Chart(ctx, {
         }
     }
 });
+
+
+let charts;
+
+console.log($('.scroll input'))
+$('.scroll input').on('change', function () {
+    updateChart(charts['pass'].slice($(this).val()), charts['dates'].slice($(this).val()))
+    $('#range').text($(this).val());
+})
 $('form#demand').on("submit", function (e){
     console.log('s');
    e.preventDefault();
     $.ajax({
         method: "POST",
-        url: "http://localhost/hackathon/api/demand",
+        url: "https://imdibil.ru/hackathon/api/demand",
         data: $(this).serialize(),
-        accept: "application/json"
+        accept: "application/json",
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+            $('#loader').removeClass('hidden')
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+            $('#loader').addClass('hidden')
+        },
     })
         .done(function( msg ) {
-            let charts = JSON.parse(msg);
+            charts = JSON.parse(msg);
             console.log(charts)
-            chart.config.data.datasets[0].data = charts['pass'];
-            chart.config.data.labels = charts['dates'];
-            chart.update();
+            updateChart(charts['pass'], charts['dates'], charts['label']);
+            $('.scroll input').attr('max', charts['count']).val(charts['count'])
             // alert( "Data Saved: " + msg );
         });
 });
-
+function updateChart(data, labels, label = null)
+{
+    chart.config.data.datasets[0].data = data;
+    if(label != null)
+    {
+        chart.config.data.datasets[0].lablel = label;
+    }
+    chart.config.data.labels = labels;
+    chart.update();
+}
 //
 // app.component('chart', {
 //     template:
