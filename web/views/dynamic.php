@@ -1,10 +1,10 @@
     <div class="dashboard">
         <div class="inner-wrapper">
-            <form action="http://localhost/hackathon/api/demand" class="form" id="demand">
+            <form action="https://imdibil.ru/hackathon/api/demand" class="form" id="demand">
                 <select name="from" class="from airports">
                     <option value="AER" selected>Сочи</option>
                     <option value="SVO" >Москва</option>
-                    <option value="3">Астрахань</option>
+                    <option value="ASF">Астрахань</option>
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -15,7 +15,7 @@
                 <select name="to" class="airports">
                     <option value="AER" >Сочи</option>
                     <option value="SVO" selected >Москва</option>
-                    <option value="3">Астрахань</option>
+                    <option value="ASF">Астрахань</option>
                 </select>
                 <select name="flight" disabled  id="">
 
