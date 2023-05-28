@@ -1,6 +1,6 @@
 <div class="dashboard">
     <div class="inner-wrapper">
-        <form action="https://imdibil.ru/hackathon/api/seasons" class="form" id="demand">
+        <form action="http://localhost/leaders2023/api/seasons" class="form" id="demand">
             <select name="from" class="from airports">
                 <option value="AER" selected>Сочи</option>
                 <option value="SVO" >Москва</option>

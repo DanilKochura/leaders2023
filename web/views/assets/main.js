@@ -36,7 +36,7 @@ $('select.airports').on('change', function (e) {
     {
         $.ajax({
             method: "POST",
-            url: 'https://imdibil.ru/hackathon/api/search_flight',
+            url: 'http://localhost/leaders2023/api/search_flight',
             data: {to: to, from: from},
             accept: "application/json",
             beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
@@ -68,14 +68,23 @@ $('select.airports').on('change', function (e) {
 
 //region Подгрузка доступных классов
 $('select[name="flight"]').on('change', function (e) {
-    let flight = $('select[name="flight"]').val();
+        let flight = $('select[name="flight"]').val();
+        console.log($(this).attr('data-equip'))
+        let method = 'search_class';
+        let block = 'class';
+        if($(this).attr('data-equip') == "1")
+        {
+            method = 'search_equip';
+            block = 'equip';
+        }
+        console.log(method)
       $.ajax({
             method: "POST",
-            url: 'https://imdibil.ru/hackathon/api/search_class',
+            url: 'http://localhost/leaders2023/api/'+method,
             data: {flight: flight},
             accept: "application/json",
             beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                $('select[name="class"]').empty().attr('disabled', true);
+                $('select[name="'+block+'"]').empty().attr('disabled', true);
                 $('#loader').removeClass('hidden')
             },
             complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
@@ -87,10 +96,11 @@ $('select[name="flight"]').on('change', function (e) {
                 try
                 {
                     let flights = JSON.parse(msg);
+                    $('select[name="'+block+'"]').append('<option></option>')
                     $.each(flights, function (key, value) {
-                        $('select[name="class"]').append('<option value'+value+'>'+value+'</option>');
+                        $('select[name="'+block+'"]').append('<option value'+value+'>'+value+'</option>');
                     })
-                    $('select[name="class"]').attr('disabled', false);
+                    $('select[name="'+block+'"]').attr('disabled', false);
                 }catch (e)
                 {
                     alert('No data!');
@@ -155,7 +165,8 @@ $('form#demand').on("submit", function (e){
                     ['Отношение за сутки', 'pass_div'],
                     ['Квадрат', 'pass_sqrt'],
                     ['Разница за сутки', 'pass_def'],
-                    ['Пассажиры', 'pass_seasons']
+                    ['Пассажиры', 'pass_seasons'],
+                    ['Прогноз', 'predict'],
                 ]
 
             let j = 0;
@@ -163,6 +174,7 @@ $('form#demand').on("submit", function (e){
             {
                 if(charts[arr[i][1]])
                 {
+                    console.log(charts[arr[i][1]]);
                     dataset.push({
                         label: arr[i][0],
                         data: charts[arr[i][1]]

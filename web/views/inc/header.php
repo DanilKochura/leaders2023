@@ -17,8 +17,8 @@
 
     <menu class="menu">
         <img src="https://imdibil.ru/hackathon/web/views/assets/logo.svg" alt="Logo" class="logo">
-        <a class="menu-element <?=$route[0]== 'dynamic' ? 'active' : ''?>" href="/hackathon/dynamic">Динамика</a>
-        <a class="menu-element <?=$route[0]== 'seasons' ? 'active' : ''?>" href="/hackathon/seasons">Сезонность</a>
-        <a class="menu-element <?=$route[0]== 'profiles' ? 'active' : ''?>" href="/hackathon/profiles">Профиль</a>
-        <a class="menu-element <?=$route[0]== 'predicts' ? 'active' : ''?>" href="/hackathon/predicts">Прогноз</a>
+        <a class="menu-element <?=$route[0]== 'dynamic' ? 'active' : ''?>" href="/leaders2023/dynamic">Динамика</a>
+        <a class="menu-element <?=$route[0]== 'seasons' ? 'active' : ''?>" href="/leaders2023/seasons">Сезонность</a>
+        <a class="menu-element <?=$route[0]== 'profiles' ? 'active' : ''?>" href="/leaders2023/profiles">Профиль</a>
+        <a class="menu-element <?=$route[0]== 'predicts' ? 'active' : ''?>" href="/leaders2023/predicts">Прогноз</a>
     </menu>

@@ -188,7 +188,36 @@ elseif($route[1] == 'search_class')
     }
     echo json_encode($resp);
 } //метод поиска доступных для рейса классов бронирования
+elseif($route[1] == 'search_equip')
+{
+    $resp = [];
+
+    $res = $db->conn->query("SELECT distinct equip1 from rasp where flt_numsh =  '{$_POST['flight']}'");
+    if($res->num_rows == 0)
+    {
+        die(json_encode([]));
+    }
+
+    $i = 0;
+    while($row = $res->fetch_assoc())
+    {
+        $resp[] = $row['equip1'];
+    }
+    echo json_encode($resp);
+} //метод поиска доступных для рейса классов бронирования
 elseif ($route[1] == 'predict')
 {
+
+        $month = date("n", strtotime($_POST['date']));
+        $day = date("w", strtotime($_POST['date']))-1;
+        $arr = json_decode(shell_exec('python run_model.py '.$_POST['from'].' '.$_POST['to'].' 1 1 '.$_POST['equip'].' '.$day.' '.$month), true);
+        $co = count($arr);
+        $arr = [
+            "predict" => $arr,
+            "count" => $co,
+        ];
+        $arr['dates'] = range(-1, 287);
+        file_put_contents(__DIR__.'/'.$_POST['flight'].'.json', json_encode($arr));
+        echo json_encode($arr);
 
 }

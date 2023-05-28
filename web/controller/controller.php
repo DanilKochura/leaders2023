@@ -3,8 +3,9 @@
 ini_set('display_errors', 1);
 error_reporting(E_ERROR);
 global $route;
-require_once ROOT.'/model/DB.php';
-require_once ROOT.'/views/inc/header.php';
+
+require_once ROOT.'model/DB.php';
+require_once ROOT.'views/inc/header.php';
 $alphabet = range("A", "Z");
 
 if($route[0] == '/')

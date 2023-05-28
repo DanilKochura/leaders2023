@@ -1,6 +1,6 @@
 <div class="dashboard">
     <div class="inner-wrapper">
-        <form action="http://localhost/hackathon/api/demand" class="form" id="demand">
+        <form action="http://localhost/leaders2023/api/predict" class="form" id="demand">
             <select name="from" class="from airports">
                 <option value="AER" selected>Сочи</option>
                 <option value="SVO" >Москва</option>
@@ -17,13 +17,13 @@
                 <option value="SVO" selected >Москва</option>
                 <option value="ASF">Астрахань</option>
             </select>
-            <select name="flight" disabled  id="">
+            <select name="flight" disabled data-equip="1" id="">
 
             </select>
             <!--                <input name="" type="text" pattern="[1-9][0-9]{3}" placeholder="Номер рейса" class="flight-number" value="1123">-->
             <input name="date" type="date" placeholder="Дата" class="date" value="2018-01-02">
-            <select name="class" class="class">    <?php foreach($alphabet as $alpha): ?>
-                    <option value="<?=$alpha?>"><?=$alpha?></option>    <?php endforeach; ?>
+            <select name="equip" id="equip">
+
             </select>
             <input type="submit" value="Отправить" class="send-button">
         </form>
