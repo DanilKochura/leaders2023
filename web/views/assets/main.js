@@ -14,11 +14,6 @@ let chart = new Chart(ctx, {
         }]
     },
     options: {
-        // elements: {
-        //     point: {
-        //         radius : 0
-        //     }
-        // }
     }
 });
 //endregion
@@ -41,7 +36,7 @@ $('select.airports').on('change', function (e) {
     {
         $.ajax({
             method: "POST",
-            url: 'http://localhost/hackathon/api/search_flight',
+            url: 'https://imdibil.ru/hackathon/api/search_flight',
             data: {to: to, from: from},
             accept: "application/json",
             beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
@@ -76,7 +71,7 @@ $('select[name="flight"]').on('change', function (e) {
     let flight = $('select[name="flight"]').val();
       $.ajax({
             method: "POST",
-            url: 'http://localhost/hackathon/api/search_class',
+            url: 'https://imdibil.ru/hackathon/api/search_class',
             data: {flight: flight},
             accept: "application/json",
             beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
@@ -131,6 +126,9 @@ $('form#demand').on("submit", function (e){
         complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
             $('#loader').addClass('hidden')
         },
+        error: function(msg) {
+            console.log(msg)
+        }
     })
         .done(function( msg ) {
             console.log(msg + url)
