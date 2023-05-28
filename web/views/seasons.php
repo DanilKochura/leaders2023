@@ -1,7 +1,7 @@
 <div class="dashboard">
     <div class="inner-wrapper">
         <form action="http://localhost/hackathon/api/seasons" class="form" id="demand">
-            <select name="from" class="from">
+            <select name="from" class="from airports">
                 <option value="AER" selected>Сочи</option>
                 <option value="SVO" >Москва</option>
                 <option value="3">Астрахань</option>
@@ -12,12 +12,14 @@
                 <path d="M15 16l4 -4"></path>
                 <path d="M15 8l4 4"></path>
             </svg>
-            <select name="to">
+            <select name="to" class="airports">
                 <option value="AER" >Сочи</option>
                 <option value="SVO" selected >Москва</option>
                 <option value="3">Астрахань</option>
             </select>
-            <input name="flight" type="text" pattern="[1-9][0-9]{3}" placeholder="Номер рейса" class="flight-number" value="1123">
+            <select name="flight" disabled  id="">
+
+            </select>
             <select name="year" id="">
                 <option value="2018">2018</option>
             </select>

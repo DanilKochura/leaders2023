@@ -14,7 +14,11 @@ let chart = new Chart(ctx, {
         }]
     },
     options: {
-
+        // elements: {
+        //     point: {
+        //         radius : 0
+        //     }
+        // }
     }
 });
 //endregion
@@ -104,6 +108,7 @@ $('form#demand').on("submit", function (e){
                 return;
             }
             // updateChart(charts['pass'], charts['dates'], charts['label']);
+            // charts['pass_div'][charts['count']-1] = 0
             let dataset = [
                 {
                     label: "Стандарт",
