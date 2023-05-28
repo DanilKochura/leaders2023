@@ -101,7 +101,7 @@ input, select {
 }
 
 .graph {
-    border: 10px dashed gray;
+    /*border: 10px dashed gray;*/
     min-height: 500px;
 }
 
@@ -160,10 +160,49 @@ input, select {
     font-weight: 900;
 }
 
-.scroll > input {
+.scroll {
+    display: flex;
+    /*grid-template-columns: 1fr 200px;*/
     width: 100%;
-    /*outline: 1px solid red;*/
+    /*border: 1px solid green;*/
 }
+
+.scroll > * {
+    /*border: 1px solid red;*/
+}
+
+.scroll > input {
+    /*display: inline;*/
+    width: 100%;
+}
+
+.depth {
+    display: flex;
+    justify-content: center;
+    /*flex-*/
+    font-size: 1.55rem;
+    font-weight: 500;
+    align-self: center;
+    justify-self: right;
+    word-wrap: normal;
+    margin-left: 20px;
+    /*min-width: 100px;*/
+    margin-right: 0;
+    /*display: none;*/
+    /*min-width: 300px;*/
+}
+
+.depth > .range-number {
+    word-wrap: normal;
+    /*font-size: 1.35rem;*/
+    font-weight: 800;
+    /*text-decoration: underline;*/
+    margin: 0 5px 0 5px;
+}
+
+
+
+
 
 #loader
 {
