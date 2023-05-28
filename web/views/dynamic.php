@@ -31,10 +31,8 @@
                 <canvas id="myChart"></canvas>
             </div>
             <div class="scroll">
-                <input type="range" min="2">
-            </div>
-            <div class="flex justify-center">
-                <p class="deep_block">Глубина: <span id="range"></span></p>
+                <input type="range" min="2" max="365">
+                <div class="depth">Глубина: <span id="range" class="range-number"> 10 </span></div>
             </div>
         </div>
     </div>
