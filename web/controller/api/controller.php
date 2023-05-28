@@ -21,9 +21,9 @@ if($route[1] == 'demand')
     }
 
     $i = 0;
+    $resp['count'] = $res->num_rows;
     while($row = $res->fetch_assoc())
     {
-        $resp['count'] = $res->num_rows;
         $resp['dates'][$i] = $row['sdat_s'];
         $resp['pass'][$i] = $row['pass_bk'];
         $resp['pass_sqrt'][$i] = $row['pass_bk'];
@@ -50,16 +50,16 @@ if($route[1] == 'demand')
 {
     $resp = [];
 
-    $res = $db->conn->query("SELECT * from class where flt_num = '{$_POST['flight']}' and `sorg` = '{$_POST['from']}' AND `sdst` = '{$_POST['to']}' and `seg_class_code` = '{$_POST['class']}' and year(dd) = '{$_POST['year']}' and dtd = -1");
+    $res = $db->conn->query("SELECT * from class where flt_num = '{$_POST['flight']}' and `sorg` = '{$_POST['from']}' AND `sdst` = '{$_POST['to']}' and `seg_class_code` = '{$_POST['class']}' and year(dd) = '{$_POST['year']}' and dtd = -1  order by dd");
     if($res->num_rows == 0)
     {
         die(json_encode([]));
     }
 
     $i = 0;
+    $resp['count'] = $res->num_rows;
     while($row = $res->fetch_assoc())
     {
-        $resp['count'] = $res->num_rows;
         $resp['dates'][$i] = $row['sdat_s'];
         $resp['pass'][$i] = $row['pass_bk'];
         $i++;
