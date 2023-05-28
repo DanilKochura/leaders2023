@@ -20,8 +20,8 @@
                 <select name="flight" disabled  id="">
 
                 </select>
-<!--                <input name="" type="text" pattern="[1-9][0-9]{3}" placeholder="Номер рейса" class="flight-number" value="1123">-->
-                <input name="date" type="date" placeholder="Дата" class="date" value="2018-01-02">
+                <input name="da" type="date" placeholder="Дата" class="date" value="2018-01-02" disabled>
+                <input type="hidden" name="date" value="2018-01-02">
                 <select name="class" class="class">    <?php foreach($alphabet as $alpha): ?>
                         <option value="<?=$alpha?>"><?=$alpha?></option>    <?php endforeach; ?>
                 </select>

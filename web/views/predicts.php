@@ -1,6 +1,6 @@
 <div class="dashboard">
     <div class="inner-wrapper">
-        <form action="http://localhost/leaders2023/api/predict" class="form" id="demand">
+        <form action="http://localhost/leaders2023/api/predict" class="form predicts" id="demand">
             <select name="from" class="from airports">
                 <option value="AER" selected>Сочи</option>
                 <option value="SVO" >Москва</option>
@@ -24,6 +24,9 @@
             <input name="date" type="date" placeholder="Дата" class="date" value="2018-01-02">
             <select name="equip" id="equip">
 
+            </select>
+            <select name="class" class="class">    <?php foreach($alphabet as $alpha): ?>
+                    <option value="<?=$alpha?>"><?=$alpha?></option>    <?php endforeach; ?>
             </select>
             <input type="submit" value="Отправить" class="send-button">
         </form>

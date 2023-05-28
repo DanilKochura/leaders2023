@@ -20,7 +20,6 @@ function square_distance($array1, $array2)
 if($route[1] == 'demand')
 {
     $resp = [];
-
     $res = $db->conn->query("SELECT * from class where flt_num = '{$_POST['flight']}' and `dd` = '{$_POST['date']}' AND `sorg` = '{$_POST['from']}' AND `sdst` = '{$_POST['to']}' and `seg_class_code` = '{$_POST['class']}' order by sdat_s ");
     if($res->num_rows == 0)
     {
@@ -210,14 +209,26 @@ elseif ($route[1] == 'predict')
 
         $month = date("n", strtotime($_POST['date']));
         $day = date("w", strtotime($_POST['date']))-1;
-        $arr = json_decode(shell_exec('python run_model.py '.$_POST['from'].' '.$_POST['to'].' 1 1 '.$_POST['equip'].' '.$day.' '.$month), true);
-        $co = count($arr);
-        $arr = [
-            "predict" => $arr,
-            "count" => $co,
-        ];
-        $arr['dates'] = range(-1, 287);
-        file_put_contents(__DIR__.'/'.$_POST['flight'].'.json', json_encode($arr));
-        echo json_encode($arr);
+        if(in_array($_POST['class'], ['I', 'D','Z','C','J','R']))
+        {
+            $_POST['salon'] = 'C';
+        } else
+        {
+            $_POST['salon'] = 'Y';
+        }
+        $arr = json_decode(shell_exec('python run_model.py '.$_POST['from'].' '.$_POST['to'].' '.$_POST['salon'].' 1 1 '.$_POST['equip'].' '.$day.' '.$month), true);
+        try {
+            $co = count($arr);
+            $arr = [
+                "predict" => $arr,
+                "count" => $co,
+            ];
+            $arr['dates'] = range(220, 0);
+            file_put_contents(__DIR__.'/'.$_POST['flight'].'.json', json_encode($arr));
+            echo json_encode($arr);
+        }catch (Exception $e)
+        {
+            die(json_encode([]));
+        }
 
 }

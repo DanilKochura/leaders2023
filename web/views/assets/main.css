@@ -117,6 +117,12 @@ input, select {
     align-items: center;
 }
 
+form.predicts
+{
+    grid-template-columns: 3fr 40px 3fr 1fr 2fr 1fr 1fr 2fr;
+
+}
+
 .form > * {
     /*outline: 1px solid red;*/
     /*border-radius: inherit;*/
