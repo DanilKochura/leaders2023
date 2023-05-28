@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 error_reporting(E_ALL);
 require_once ROOT.'model/DB.php';
 
@@ -14,7 +14,7 @@ if($route[1] == 'demand')
 {
     $resp = [];
 
-    $res = $db->conn->query("SELECT * from class where flt_num = '{$_POST['flight']}' and `dd` = '{$_POST['date']}' AND `sorg` = '{$_POST['from']}' AND `sdst` = '{$_POST['to']}' and `seg_class_code` = '{$_POST['class']}'");
+    $res = $db->conn->query("SELECT * from class where flt_num = '{$_POST['flight']}' and `dd` = '{$_POST['date']}' AND `sorg` = '{$_POST['from']}' AND `sdst` = '{$_POST['to']}' and `seg_class_code` = '{$_POST['class']}' order by sdat_s ");
     if($res->num_rows == 0)
     {
         die(json_encode([]));
@@ -35,7 +35,7 @@ if($route[1] == 'demand')
         }
         if(isset($resp['pass_def'][$i-1]))
         {
-            $resp['pass_def'][$i-1] = $resp['pass_def'][$i-1]-$resp['pass_def'][$i];
+            $resp['pass_def'][$i] = $row['pass_bk'] - $resp['pass'][$i-1];
         }
         if(isset($resp['pass_div'][$i-1]))
         {
