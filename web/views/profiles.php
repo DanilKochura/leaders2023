@@ -1,6 +1,6 @@
 <div class="dashboard">
     <div class="inner-wrapper">
-        <form action="http://localhost/leaders2023/api/predict" class="form predicts" id="demand">
+        <form action="http://localhost/leaders2023/api/profiles" class="form predicts" id="demand">
             <select name="from" class="from airports">
                 <option value="AER" >Сочи</option>
                 <option value="SVO" selected>Москва</option>

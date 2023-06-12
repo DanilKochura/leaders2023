@@ -20,7 +20,7 @@ if($route[0] == '/')
     require_once ROOT.'/views/seasons.php';
 }elseif ($route[0] == 'profiles')
 {
-//    require_once ROOT.'/views/profiles.php';
+    require_once ROOT.'/views/profiles.php';
 }elseif ($route[0] == 'predicts')
 {
     require_once ROOT.'/views/predicts.php';

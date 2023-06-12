@@ -1,4 +1,5 @@
 
+
 //region Инициализавция графика
 const ctx = document.getElementById('myChart');
 let labels = [];
@@ -18,12 +19,13 @@ let chart = new Chart(ctx, {
 });
 //endregion
 const arr =
-    [
-        ["Стандарт", 'pass'],
-        ['Деление', 'pass_div'],
-        ['Квадрат', 'pass_sqrt'],
-        ['Разница', 'pass_def']
-    ]
+  [
+      ["Количество проданных", 'pass'],
+      ['Отношение за сутки', 'pass_div'],
+      ['Квадрат', 'pass_sqrt'],
+      ['Разница за сутки', 'pass_def'],
+      ['Пассажиры', 'pass_seasons'],
+  ]
 
 let charts; // глобальная переменная для хранения данных графика
 
@@ -160,14 +162,15 @@ $('form#demand').on("submit", function (e){
             // charts['pass_div'][charts['count']-1] = 0
             let dataset = [];
             const arr =
-                [
-                    ["Количество проданных", 'pass'],
-                    ['Отношение за сутки', 'pass_div'],
-                    ['Квадрат', 'pass_sqrt'],
-                    ['Разница за сутки', 'pass_def'],
-                    ['Пассажиры', 'pass_seasons'],
-                    ['Прогноз', 'predict'],
-                ]
+              [
+                  ["Количество проданных", 'pass'],
+                  ['Отношение за сутки', 'pass_div'],
+                  ['Квадрат', 'pass_sqrt'],
+                  ['Разница за сутки', 'pass_def'],
+                  ['Пассажиры', 'pass_seasons'],
+                ['Бизнес>', 'predict'],
+                ['Эконом', 'predict_y']
+              ]
 
             let j = 0;
             for(let i = 0; i < arr.length; i++)
@@ -212,14 +215,24 @@ $('form#demand').on("submit", function (e){
 });
 function updateChart(data, deep)
 {
+
     chart.config.data.labels = charts['dates'].slice(deep);
-    for(let i = 0; i < arr.length; i++)
+    console.log()
+    if(chart.config.data.datasets[0].label == 'Количество проданных')
     {
-        if(charts[arr[i][1]])
+        for(let i = 0; i < arr.length; i++)
         {
-            chart.config.data.datasets[i].data = charts[arr[i][1]].slice(deep);
+            if(charts[arr[i][1]])
+            {
+
+                chart.config.data.datasets[i].data = charts[arr[i][1]].slice(deep);
+            }
         }
+    } else if(chart.config.data.datasets[0].label == 'Прогноз')
+    {
+        chart.config.data.datasets[0].data = charts['predict'].slice(deep);
     }
+
     chart.update();
 }
 //endregion

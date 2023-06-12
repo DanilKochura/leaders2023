@@ -1,6 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+ini_set('display_errors', 0);
+//error_reporting(E_ALL);
 define('ROOT', '../web');
 require_once '../web/model/DB.php';
 $db = new DB();
@@ -25,22 +25,23 @@ foreach ($files as $f)
         while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
 
 
-            if(in_array($data[2], [1122, 1123,1140])) //in_array($data[2], [1117, 1123, 1122, 1790, 1130, 1173, 1140])
-            {
+
                 $data[0] = date('Y-m-d', strtotime($data[0]));
                 $data[3] = date('Y-m-d', strtotime($data[3]));
 
                 $q.='("' . implode('","', $data) . '"),';
-            } else
-            {
-                continue;
-            }
-            if($i++ == 10000)
+
+            if($i++ == 25000)
             {
                 $i = 0;
                 echo $row.PHP_EOL;
                 $q = rtrim($q, ',');
                 $db->conn->query($q);
+                if($db->conn->error_list)
+                {
+                    print_r($db->conn->error_list);
+                    die;
+                }
                 $q = $str;
             }
             $row++;
@@ -54,7 +55,6 @@ foreach ($files as $f)
 
 }
 //endregion
-
 //region Rasp
 $db->conn->query(file_get_contents('create_rasp_table.sql'));
 $db->conn->query(file_get_contents('alter_rasp_table.sql'));

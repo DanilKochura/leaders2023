@@ -11,7 +11,7 @@ def main(sorg, sdst, sscl1, tt_dep, tt_arr, equip, weekday, month):
     model = CatBoostRegressor()
     model.load_model('model.cbm')
 
-    for dtd in range(220, 1, -1):
+    for dtd in range(217, 1, -1):
         df =[sorg, sdst, sscl1, dtd, tt_dep, tt_arr, equip, weekday, month]
         lis = np.append(lis, model.predict(data=df))
 

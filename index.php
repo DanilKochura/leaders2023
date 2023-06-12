@@ -1,6 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ERROR);
+ini_set('display_errors', 0);
+//error_reporting(E_ERROR);
 //define("PATH", "https://imdibil.ru/hackathon/web/");
 define("PATH", "https://imdibil.ru/hackathon/web/");
 define("ROOT", $_SERVER['DOCUMENT_ROOT']."/leaders2023/web/");

@@ -56,9 +56,8 @@ if($route[1] == 'demand')
 elseif($route[1] == 'seasons')
 {
     $resp = [];
-
     //region Получение динамики пролетевших пассажиров за год
-    $res = $db->conn->query("SELECT * from class where flt_num = '{$_POST['flight']}' and `sorg` = '{$_POST['from']}' AND `sdst` = '{$_POST['to']}' and `seg_class_code` = '{$_POST['class']}' and year(dd) = '{$_POST['year']}' and dtd = -1  order by dd");
+    $res = $db->conn->query("SELECT *, sum(pass_bk) as sum from class where flt_num = '{$_POST['flight']}' and `sorg` = '{$_POST['from']}' AND `sdst` = '{$_POST['to']}' and `seg_class_code`  not in ('I', 'D','Z','C','J','R') and year(dd) = '{$_POST['year']}' and dtd = -1 group by dd order by dd");
     if($res->num_rows == 0)
     {
         die(json_encode([]));
@@ -69,7 +68,7 @@ elseif($route[1] == 'seasons')
     while($row = $res->fetch_assoc())
     {
         $resp['dates'][$i] = $row['sdat_s'];
-        $resp['pass_seasons'][$i] = $row['pass_bk'];
+        $resp['pass_seasons'][$i] = $row['sum'];
         $i++;
 
         $resp['label'] = $row['seg_class_code'];
@@ -207,28 +206,124 @@ elseif($route[1] == 'search_equip')
 elseif ($route[1] == 'predict')
 {
 
+
         $month = date("n", strtotime($_POST['date']));
         $day = date("w", strtotime($_POST['date']))-1;
-        if(in_array($_POST['class'], ['I', 'D','Z','C','J','R']))
-        {
-            $_POST['salon'] = 'C';
-        } else
-        {
-            $_POST['salon'] = 'Y';
-        }
-        $arr = json_decode(shell_exec('python run_model.py '.$_POST['from'].' '.$_POST['to'].' '.$_POST['salon'].' 1 1 '.$_POST['equip'].' '.$day.' '.$month), true);
+
+        $arr_c = json_decode(shell_exec('python run_model.py '.$_POST['from'].' '.$_POST['to'].' C 1 1 '.$_POST['equip'].' '.$day.' '.$month), true);
+        $arr_y = json_decode(shell_exec('python run_model.py '.$_POST['from'].' '.$_POST['to'].' Y 1 1 '.$_POST['equip'].' '.$day.' '.$month), true);
         try {
-            $co = count($arr);
+            $co = count($arr_c);
             $arr = [
-                "predict" => $arr,
+                "predict" => $arr_c,
+                "predict_y" => $arr_y,
                 "count" => $co,
             ];
-            $arr['dates'] = range(220, 0);
-            file_put_contents(__DIR__.'/'.$_POST['flight'].'.json', json_encode($arr));
+            $arr['dates'] = range(217, 0);
+//            file_put_contents(__DIR__.'/'.$_POST['flight'].'.json', json_encode($arr));
             echo json_encode($arr);
         }catch (Exception $e)
         {
             die(json_encode([]));
         }
 
+} elseif($route[1] == 'profiles')
+{
+    $resp = [];
+    //region Получение динамики пролетевших пассажиров за год
+    $res = $db->conn->query("SELECT *, sum(pass_bk) as sum from class where flt_num = '{$_POST['flight']}' and `dd` = '{$_POST['date']}' AND `sorg` = '{$_POST['from']}' AND `sdst` = '{$_POST['to']}'  and `seg_class_code` not  in ('I', 'D','Z','C','J','R')  group by sdat_s order by sdat_s ");
+
+    if($res->num_rows == 0)
+    {
+        die(json_encode([]));
+    }
+
+    $i = 0;
+    $resp['count'] = $res->num_rows;
+    while($row = $res->fetch_assoc())
+    {
+        $resp['dates'][$i] = $row['sdat_s'];
+        $resp['pass_seasons'][$i] = $row['sum'];
+        $i++;
+
+        $resp['label'] = $row['seg_class_code'];
+    }
+    //endregion
+
+
+    //region Определение сезонности
+    $num = 15;  //количество сезонов
+
+    $arr = $resp['pass_seasons'];  //исходный массив чисел
+    $sum = 0;
+    $co = count($arr);
+    $diffs = [];
+    $segments = [];
+    //Алгоритм:
+
+    //region Находим массив абсолютных разниц между соседними днями
+    for($i = 1; $i< $co; $i++)
+    {
+        $diffs[$i] = abs($arr[$i]-$arr[$i-1]);
+    }
+    //endregion
+
+    //region Сортируем в порядке убывания
+    arsort($diffs);
+    //endregion
+
+    //region Выбираем $num точек с самой высокой разницей (выбросы)
+    $nodes =  array_slice(array_keys($diffs), 0, $num);
+    sort($nodes);
+    //endregion
+
+    //region Группируем остальные точки вокруг этих точек
+    $segments = [];
+    $j = 0;
+    $dates = [0];
+    for($i = 0; $i< $co; $i++)
+    {
+        //region Если дошли до контрольной точки - перемещаем счетчики
+        if($i == $nodes[$j] and $j != $num - 1)
+        {
+            $segments[$j][] = $arr[$i];
+            $dates[] = $i;
+            $j++;
+            $done = true;
+            continue;
+        }
+        //endregion
+        //region Если нет, то проверяем квадратичное расстояние до контрольных точек и определяем в сегмент
+        if(square_distance([$arr[$i], $i], [$arr[$nodes[$j]], $j]) > square_distance([$arr[$i], $i], [$arr[$nodes[$j-1]], $j-1]) and $done != false)
+        {
+            $segments[$j-1][] = $arr[$i];
+        } else
+        {
+            $segments[$j][] = $arr[$i];
+            $done = false; // если один раз записали в следующую группу, в предыдущую уже нельзя
+        }
+        //endregion
+    }
+    //endregion
+
+    //region Усредняем сезоны
+    foreach($segments as $key1=>$seg)
+    {
+        $sum = 0;
+        foreach($seg as $s)
+        {
+            $sum+=$s;
+        }
+        $avg = $sum/count($seg);
+        foreach($seg as $key=>$s)
+        {
+            $segments[$key1][$key] = $avg;
+        }
+    }
+    //endregion
+    $resp['segments'] = $segments;
+    $resp['segments_dates'] = $dates;
+//    $resp['dates'] = $dates;
+    //endregion
+    echo json_encode($resp);
 }

@@ -17,13 +17,13 @@
                     <option value="SVO" selected >Москва</option>
                     <option value="ASF">Астрахань</option>
                 </select>
-                <select name="flight" disabled  id="">
-
+                <select name="flight"   id="">
+                    <option value="1123" selected > 1123</option>
                 </select>
-                <input name="da" type="date" placeholder="Дата" class="date" value="2018-01-02" disabled>
-                <input type="hidden" name="date" value="2018-01-02">
+                <input name="date" type="date" placeholder="Дата" class="date" value="2018-01-02" >
                 <select name="class" class="class">    <?php foreach($alphabet as $alpha): ?>
                         <option value="<?=$alpha?>"><?=$alpha?></option>    <?php endforeach; ?>
+                    <option value="N" selected>N</option>
                 </select>
                 <input type="submit" value="Отправить" class="send-button">
             </form>
